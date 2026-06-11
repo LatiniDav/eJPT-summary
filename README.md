@@ -1,8 +1,8 @@
 # Table of contents
 
-* [Port](README.md)
-* [Pre-Exploit](pre-exploit.md)
-* [Login](login.md)
+* [Port](./)
+* [Pre-Exploit](pre-exploit/03-pre-exploit.md)
+* [Login](pre-exploit/02-login.md)
 
 ## LINUX
 
@@ -29,5 +29,5 @@
 
 ***
 
-* [Tools](tools.md)
-* [Network fundamentals](network-fundamentals.md)
+* [Tools](other/tools.md)
+* [Network fundamentals](web/network-fundamentals.md)

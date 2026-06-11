@@ -1,6 +1,24 @@
 ---
 hidden: true
 icon: network-wired
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+  actions:
+    visible: true
 ---
 
 # Network fundamentals
@@ -22,7 +40,7 @@ icon: network-wired
 
 ## ISO-OSI
 
-<figure><picture><source srcset=".gitbook/assets/image (2).png" media="(prefers-color-scheme: dark)"><img src=".gitbook/assets/image (2).png" alt=""></picture><figcaption></figcaption></figure>
+<figure><picture><source srcset="../.gitbook/assets/image (2).png" media="(prefers-color-scheme: dark)"><img src="../.gitbook/assets/image (2).png" alt=""></picture><figcaption></figcaption></figure>
 
 ### <mark style="color:$primary;">Transport Layer (lvl 4)</mark>
 
@@ -43,7 +61,7 @@ Protocolli:&#x20;
     * ogni packet è indipendente (non vi è correlazione con gli altri)
     * semplicità, efficienza azioni non affidabili e non ordinate dei pacchetti, veloce).
 
-    <figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ### <mark style="color:$primary;">Network Layer (lvl 3)</mark>
 
@@ -86,4 +104,4 @@ netstat -antp
 
 ### Three-way handshake
 
-<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>

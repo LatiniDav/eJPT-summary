@@ -1,8 +1,26 @@
 ---
 icon: windows
+layout:
+  width: default
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+  metadata:
+    visible: true
+  tags:
+    visible: true
+  actions:
+    visible: true
 ---
 
-# WINDOWS
+# Windows exploit & post-exploit
 
 ## <mark style="color:$primary;">Exploit Windows</mark>
 
